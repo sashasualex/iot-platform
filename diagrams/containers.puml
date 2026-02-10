@@ -1,31 +1,28 @@
-@startuml Container
-!includeurl https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
-
-Person(engineer, "Инженер")
-Container_Boundary(System_IoT, "IoT Microservices Platform", "Микросервисная IoT-платформа"){
-    Container(service1, "Service1", "Какой нибудь микросервис будет тут")
-    Container(service2, "Service2", "Какой нибудь микросервис будет тут")
-    ContainerDb(postres, "PostgreSQL", "Реляционная база данных для хранения данных устройств и пользователей")
-    Container(redis, "Redis", "In-memory хранилище для кэширования и управления сессиями")
-    Container(clickhouse, "ClickHouse", "Колонко-ориентированная СУБД для аналитики и хранения больших объемов данных")
-    Container(kafka, "Kafka", "Платформа потоковой передачи данных для обмена сообщениями между микросервисами")
-    Container(minio, "MinIO", "Объектное хранилище для хранения больших файлов и данных")
-    Container(keycloak, "Keycloak", "Аутентификация и авторизация")
-    Container(camunda, "Camunda", "Платформа управления бизнес-процессами (BPM)")
+@startuml
+skinparam componentStyle rectangle
+node "Kafka (KRaft)" as Kafka {
+  queue "events (Avro)" as T1
+  queue "devices" as T2
 }
-System_Ext(device, "IoT-устройство", "Внешний датчик или контроллер, отправляет данные")
 
-Rel(device, kafka, "Отправка данных")
-Rel(engineer, keycloak, "Вход в систему")
-Rel(engineer, camunda, "Монитоинг процессов")
-Rel(service1, keycloak, "Запрос токена")
-Rel(service1, camunda, "Запуск бизнес-процессов")
-Rel(service1, redis, "Кэш активных устройств")
-Rel(service1, minio, "Загрузка/выгрузка файлов")
-Rel(service1, postres, "Конфигурации устройства")
-Rel(service1, kafka, "Чтение данных от устройств")
-Rel(service2, postres, "Параметры аналитики")
-Rel(service2, clickhouse, "Сохранение телеметрии"                                                                   )
+node "Schema Registry" as SR
+database "ClickHouse" as CH
+node "Redis" as R
 
-
+rectangle "events-collector-service" as ECS {
+  [KafkaListener] as KL
+  [EventProcessor] as EP
+  [OutboxScheduler] as OS
+  [KafkaProducer] as KP
+}
+T1 --> KL : consume
+KL --> SR : fetch schema
+EP --> CH : insert device_events
+EP --> R : SADD devices:seen
+EP --> CH : insert device_outbox (NEW)
+OS --> R : lock outbox:lock (NX PX)
+OS --> CH : select outbox NEW ...
+OS --> KP : publish device_id ...
+KP --> T2 : produce
+OS --> CH : mark SENT ...
 @enduml
