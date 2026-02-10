@@ -1,0 +1,31 @@
+@startuml Container
+!includeurl https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+Person(engineer, "Инженер")
+Container_Boundary(System_IoT, "IoT Microservices Platform", "Микросервисная IoT-платформа"){
+    Container(service1, "Service1", "Какой нибудь микросервис будет тут")
+    Container(service2, "Service2", "Какой нибудь микросервис будет тут")
+    ContainerDb(postres, "PostgreSQL", "Реляционная база данных для хранения данных устройств и пользователей")
+    Container(redis, "Redis", "In-memory хранилище для кэширования и управления сессиями")
+    Container(clickhouse, "ClickHouse", "Колонко-ориентированная СУБД для аналитики и хранения больших объемов данных")
+    Container(kafka, "Kafka", "Платформа потоковой передачи данных для обмена сообщениями между микросервисами")
+    Container(minio, "MinIO", "Объектное хранилище для хранения больших файлов и данных")
+    Container(keycloak, "Keycloak", "Аутентификация и авторизация")
+    Container(camunda, "Camunda", "Платформа управления бизнес-процессами (BPM)")
+}
+System_Ext(device, "IoT-устройство", "Внешний датчик или контроллер, отправляет данные")
+
+Rel(device, kafka, "Отправка данных")
+Rel(engineer, keycloak, "Вход в систему")
+Rel(engineer, camunda, "Монитоинг процессов")
+Rel(service1, keycloak, "Запрос токена")
+Rel(service1, camunda, "Запуск бизнес-процессов")
+Rel(service1, redis, "Кэш активных устройств")
+Rel(service1, minio, "Загрузка/выгрузка файлов")
+Rel(service1, postres, "Конфигурации устройства")
+Rel(service1, kafka, "Чтение данных от устройств")
+Rel(service2, postres, "Параметры аналитики")
+Rel(service2, clickhouse, "Сохранение телеметрии"                                                                   )
+
+
+@enduml
