@@ -1,0 +1,7 @@
+В postres есть доп команда ./scripts/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+В redis у бруно есть environment REDIS_HOST
+
+Kafka используется другой образ, изза этого очень много отличий confluentinc/cp-kafka:7.7.7
+
+в clickhouse пробрасывает порт "9000:9000" и есть environment, по другому написан helthcheck, другие volumes
