@@ -1,0 +1,56 @@
+spring:
+  application:
+    name: events-collector-service
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    consumer:
+      group-id: ${KAFKA_GROUP_ID:events-collector-group}
+      auto-offset-reset: earliest
+      enable-auto-commit: false
+      max-poll-records: 1
+    properties:
+      schema.registry.url: ${SCHEMA_REGISTRY_URL:http://localhost:8081}
+  datasource:
+    url: ${CLICKHOUSE_JDBC_URL:jdbc:clickhouse://localhost:8123/default}
+    username: ${CLICKHOUSE_USERNAME:default}
+    password: ${CLICKHOUSE_PASSWORD:}
+    driver-class-name: com.clickhouse.jdbc.ClickHouseDriver
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics,prometheus
+
+app:
+  topics:
+    events: ${EVENTS_TOPIC:events}
+    devices: ${DEVICES_TOPIC:devices}
+  outbox:
+    batch-size: ${OUTBOX_BATCH_SIZE:100}
+    lock-ttl-ms: ${OUTBOX_LOCK_TTL_MS:15000}
+    cron-delay-ms: ${OUTBOX_CRON_DELAY_MS:5000}
+  redis:
+    seen-devices-key: ${REDIS_SEEN_DEVICES_KEY:devices:seen}
+    published-devices-key: ${REDIS_PUBLISHED_DEVICES_KEY:devices:published}
+    outbox-lock-key: ${REDIS_OUTBOX_LOCK_KEY:outbox:lock}
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+  kafka:
+    bootstrap-servers: kafka:9092
+    properties:
+      schema.registry.url: http://schema-registry:8081
+  datasource:
+    url: jdbc:clickhouse://clickhouse:8123/default
+  data:
+    redis:
+      host: redis
+      port: 6379

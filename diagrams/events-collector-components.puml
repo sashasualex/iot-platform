@@ -1,0 +1,18 @@
+@startuml
+package "events-collector-service" {
+  [EventsKafkaListener]
+  [EventProcessor]
+  [ClickHouseRepository]
+  [RedisDedupService]
+  [OutboxScheduler]
+  [RedisLockService]
+  [KafkaTemplate]
+}
+[EventsKafkaListener] --> [EventProcessor]
+[EventProcessor] --> [ClickHouseRepository]
+[EventProcessor] --> [RedisDedupService]
+[OutboxScheduler] --> [RedisLockService]
+[OutboxScheduler] --> [ClickHouseRepository]
+[OutboxScheduler] --> [RedisDedupService]
+[OutboxScheduler] --> [KafkaTemplate]
+@enduml

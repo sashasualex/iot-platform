@@ -1,0 +1,26 @@
+@startuml
+participant KafkaEvents as K1
+participant ECS as S
+participant Redis as R
+participant ClickHouse as CH
+participant Cron as C
+participant KafkaDevices as K2
+K1 -> S : DeviceEvent (Avro)
+S -> CH : INSERT device_events
+S -> R : SADD devices:seen(deviceId)
+alt deviceId is new
+  S -> CH : INSERT device_outbox(status=NEW)
+end
+S -> K1 : commit offset
+== periodic ==
+C -> R : acquire outbox lock
+C -> CH : SELECT outbox WHERE status=NEW LIMIT N
+loop each row
+  C -> R : SADD devices:published(deviceId)
+  alt is new
+    C -> K2 : produce device_id
+  end
+end
+C -> CH : mark rows as SENT
+C -> R : release lock
+@enduml
