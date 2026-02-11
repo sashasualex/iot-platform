@@ -1,4 +1,4 @@
-COMPOSE = docker compose -f infrastructure/docker-compose.yml
+maCOMPOSE = docker compose -f infrastructure/docker-compose.yml
 
 .PHONY: up, down, restart, build, logs, clean
 
