@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: com.google.re2j:re2j:1.6" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="com.google.re2j" artifactId="re2j" version="1.6" baseVersion="1.6" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.re2j/re2j/1.6/a13e879fd7971738d06020fefeb108cc14e14169/re2j-1.6.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

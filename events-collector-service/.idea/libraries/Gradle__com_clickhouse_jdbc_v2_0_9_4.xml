@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: com.clickhouse:jdbc-v2:0.9.4" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="com.clickhouse" artifactId="jdbc-v2" version="0.9.4" baseVersion="0.9.4" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.clickhouse/jdbc-v2/0.9.4/ce7dc3e3b9cee78057d4be06676748e8dcef2923/jdbc-v2-0.9.4.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

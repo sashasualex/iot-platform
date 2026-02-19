@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: org.roaringbitmap:shims:0.9.47" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="org.roaringbitmap" artifactId="shims" version="0.9.47" baseVersion="0.9.47" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.roaringbitmap/shims/0.9.47/21b1d4eac69d3ed9fddaf7b2def29fc5b06bb97f/shims-0.9.47.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

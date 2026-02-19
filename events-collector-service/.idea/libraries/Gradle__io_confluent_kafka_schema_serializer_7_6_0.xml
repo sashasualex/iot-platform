@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: io.confluent:kafka-schema-serializer:7.6.0" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="io.confluent" artifactId="kafka-schema-serializer" version="7.6.0" baseVersion="7.6.0" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.confluent/kafka-schema-serializer/7.6.0/b3775a478181ad5b0aa24efdf1423f5e864775b0/kafka-schema-serializer-7.6.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

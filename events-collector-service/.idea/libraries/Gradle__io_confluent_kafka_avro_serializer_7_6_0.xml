@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: io.confluent:kafka-avro-serializer:7.6.0" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="io.confluent" artifactId="kafka-avro-serializer" version="7.6.0" baseVersion="7.6.0" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.confluent/kafka-avro-serializer/7.6.0/5224ee44cc1a0ac191304bcf4c21d106410535cc/kafka-avro-serializer-7.6.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

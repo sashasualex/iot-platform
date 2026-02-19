@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: io.confluent:common-utils:7.6.0" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="io.confluent" artifactId="common-utils" version="7.6.0" baseVersion="7.6.0" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.confluent/common-utils/7.6.0/9ba590cbee1ef00215066073745c78b5457f2923/common-utils-7.6.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

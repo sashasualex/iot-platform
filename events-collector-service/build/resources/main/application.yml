@@ -1,0 +1,50 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: events-collector-service
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9094}
+    consumer:
+      group-id: events-collector-group
+      enable-auto-commit: false
+      max-poll-records: 1
+      properties:
+        schema.registry.url: ${SCHEMA_REGISTRY_URL:http://localhost:8081}
+        value.deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+      topic:
+        name: events
+        partitionCount: 3
+
+    producer:
+      topic:
+        name: devices
+        partitionCount: 3
+    listener:
+      ack-mode: manual
+      concurrency: 1
+
+
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+
+  datasource:
+    url: jdbc:clickhouse://${CLICKHOUSE_HOST:localhost}:8123/events
+    username: ${CLICKHOUSE_USER:default}
+    password: ${CLICKHOUSE_PASSWORD:}
+    driver-class-name: com.clickhouse.jdbc.ClickHouseDriver
+
+management:
+    endpoints:
+      web:
+        exposure:
+          include: metrics, health, prometheus
+
+
+
+
