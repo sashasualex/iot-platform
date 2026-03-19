@@ -1,0 +1,30 @@
+@startuml
+skinparam componentStyle rectangle
+node "Kafka" as kafka{
+    queue "events (Avro)" as T1
+    queue "devices" as T2
+}
+
+node "Schema Registry" as SR
+database "ClickHouse" as CH
+node "Redis" as R
+
+rectangle "Events Collector Service" as ECS {
+    [KafkaListener] as KL
+    [OutboxScheduler] as OS
+    [EventsProcessor] as EP
+    [KafkaProducer] as KP
+}
+
+T1 --> KL: Consume
+KL --> SR: Fetch schema
+EP --> CH: INSERT device_events
+EP --> R: SADD devices:seen
+EP --> CH: INSERT device_outbox (new)
+OS --> R: SET outbox:lock (NX PX)
+OS --> CH: SELECT device_outbox NEW
+OS --> KP: Publish deviceId
+KP --> T2: Produce
+OS --> CH: Mark sent
+OS --> R: DEL outbox:lock
+@enduml

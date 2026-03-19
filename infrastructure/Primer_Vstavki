@@ -1,0 +1,7 @@
+{
+  "eventId": "e-1",
+  "deviceId": "d-1",
+  "timestamp": 1700000000000,
+  "type": "TEMP",
+  "payload": "{\"t\":23}"
+}

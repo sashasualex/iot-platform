@@ -1,0 +1,59 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: events-collector-service
+
+  kafka:
+    consumer:
+      group-id: events-collector-group
+      enable-auto-commit: false
+      max-poll-records: 1
+      properties:
+        value.deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+        schema.registry.url: ${SCHEMA_REGISTRY_URL:http://localhost:8081}
+        specific.avro.reader: true
+      topic:
+        name: events
+        partitionCount: 3
+
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      topic:
+        name: devices
+        partitionCount: 3
+    listener:
+      ack-mode: manual
+      concurrency: 1
+
+
+  data:
+    redis:
+      password: ${REDIS_PASSWORD:}
+
+
+  datasource:
+    username: ${CLICKHOUSE_USER:test}
+    password: ${CLICKHOUSE_PASSWORD:test123}
+    driver-class-name: com.clickhouse.jdbc.ClickHouseDriver
+
+  scheduling:
+    outboxCron: ${SCHEDULING_OUTBOX_CRON:0 * * * * *}
+    batchSize: 10
+
+  redis:
+    lock-time-in-seconds: 10
+    lock-key: outbox:lock
+    publish-key: devices:published
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: metrics, health, prometheus
+
+
+
+
