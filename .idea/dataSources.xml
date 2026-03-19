@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="events@localhost" uuid="778841eb-2206-49c8-b1f2-d492ed4e794e">
+    <data-source source="LOCAL" name="events@localhost" uuid="716926f6-ea10-4182-ad9a-b4db9bf6d7c4">
       <driver-ref>clickhouse</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.clickhouse.jdbc.ClickHouseDriver</jdbc-driver>

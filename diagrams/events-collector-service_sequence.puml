@@ -1,0 +1,23 @@
+@startuml
+participant "KafkaEvents" as KE
+participant "events collector service" as ECS
+participant "Redis" as R
+participant "ClickHouse" as CH
+participant "Scheduler" as S
+participant "KafkaDevices" as KD
+
+KE --> ECS: Device event (Avro)
+ECS -->CH: INSERT device_events
+ECS --> R: SADD devices:seen
+alt deviceId is NEW
+    ECS --> CH: INSERT device_outbox (new)
+end
+==Periodic==
+S --> R: SET outbox:lock (NX PX)
+S --> CH: SELECT device_outbox WHERE status=0 LIMIT N
+loop for list of deviceIds
+    S --> KD: Publish deviceId
+end
+S --> CH: Mark sent
+S --> R: DEL outbox:lock
+@enduml

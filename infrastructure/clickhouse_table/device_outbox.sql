@@ -9,4 +9,4 @@ CREATE TABLE IF NOT EXISTS events.device_outbox
 )
     ENGINE = MergeTree
     PARTITION BY toYYYYMM(created_at)
-    ORDER BY (status, created_at, device_id);
+    ORDER BY (created_at, device_id);
